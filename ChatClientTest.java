@@ -57,7 +57,6 @@ class Send extends Thread {
             }
             while (true) {
                 Scanner in = new Scanner(System.in);
-                System.out.println("me: ");
                 String str = in.nextLine();
                 if (str.equals("bye")) {
                     break;
