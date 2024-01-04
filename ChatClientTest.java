@@ -32,18 +32,29 @@ public class ChatClientTest {
 
 class Send extends Thread {
     private Socket socket;
+    private boolean setName;
+    private String name;
     public Send(Socket socket) {
         super();
         this.socket = socket;
+        this.setName = false;
     }
 
     @Override
     public void run() {
         OutputStream outputStream = null;
         PrintStream ps = null;
+
         try {
             outputStream = socket.getOutputStream();
             ps = new PrintStream(outputStream);
+            if (this.setName == false) {
+                System.out.print("Please input your name: ");
+                this.name = new Scanner(System.in).nextLine();
+                this.setName = true;
+                ps.println(this.name);
+                ps.flush();
+            }
             while (true) {
                 Scanner in = new Scanner(System.in);
                 System.out.println("me: ");
@@ -55,6 +66,9 @@ class Send extends Thread {
                 ps.flush();
             }
             ps.close();
+            if (outputStream != null) {
+                outputStream.close();
+            }
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
